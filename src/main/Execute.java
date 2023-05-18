@@ -37,7 +37,6 @@ public class Execute {
         String urlStr = "";
         urlStr = PropertiesUtil.getProperties("AmazonURL") + PropertiesUtil.getProperties("AmazonURL_SEARCH");
 		
-		//String urlStr = Constants.AmazonURL + Constants.AmazonURL_SEARCH;
 		String serchWordEncoding = Util.urlEncode(searchWord, "UTF-8");
 
 		// http通信を行い、通信先ページのhttpのリストを取得
