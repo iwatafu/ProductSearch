@@ -14,7 +14,7 @@ import common.utils.PropertiesUtil;
 
 /**
  * 
- * 商品名とその評価の星を取得し、商品リストに詰めて返却するクラス
+ * 検索されたワードに対して商品名・レビュー値・口コミ（最大5件）を返却するクラス
  * 
  *
  */
@@ -81,6 +81,11 @@ public class ProductService {
 						sbTotalScore = new StringBuilder();
 						sbReview = new StringBuilder();
 						exceptionflag = false;
+						
+						// レビュー値がnullの場合「レビュー無し」をset
+					    if (product.getTotalScore() == null) {
+					    	product.setTotalScore(Constants.NO_REVIEW);
+					    }
 
 						productList.add(product);
 					}
@@ -120,6 +125,11 @@ public class ProductService {
 											"<a class=\"a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal\".*?href=\"|\">|amp;",
 											""));
 						}
+						
+						// レビュー値がnullの場合「レビュー無し」をset
+					    if (product.getTotalScore() == null) {
+					    	product.setTotalScore(Constants.NO_REVIEW);
+					    }
 	
 						productList.add(product);
 					
@@ -132,13 +142,6 @@ public class ProductService {
 				sbTotalScore.append(str);
 				sbReview.append(str);
 			}
-		}
-		
-		for (Product p : productList) {
-			System.out.println("商品名" + p.getName());
-			System.out.println("レビュー値" + p.getTotalScore());
-			System.out.println("商品詳細用URL" + p.getDetailUrl());
-			System.out.println("");
 		}
 
 		return productList;
@@ -160,10 +163,15 @@ public class ProductService {
 			
 			// Amazon商品詳細用URLの共通部分
 	        String urlStr = "";
-	        urlStr = PropertiesUtil.getProperties("AmazonURL");
+	        urlStr = PropertiesUtil.getProperties(Constants.AMAZON_URL);
 			
 			// Amazon商品詳細用URLの可変部分（各商品で変わる）
 			String urlParam = product.getDetailUrl();
+			
+			// レビュー値が「レビュー無し」の場合、以下の工程スキップ（口コミを取りに行く必要が無い）
+			if (product.getTotalScore() == Constants.NO_REVIEW) {
+				continue;
+			}
 			
 			ArrayList<String> lineDetailList = new ArrayList<String>();
 			lineDetailList = httpClient.doGet(urlStr, urlParam, headers);
@@ -191,7 +199,12 @@ public class ProductService {
 					
 					mReview = pReview.matcher(line);
 					if (mReview.find()) {
-						productReview.setReview(mReview.group().replaceAll("<span>|</span>", ""));
+						// <br />が存在していれば削除
+						if (mReview.group().contains(Constants.BR_TAG)) {
+							productReview.setReview(mReview.group().replaceAll("<span>|</span>", "").replaceAll(Constants.BR_TAG, ""));
+						} else {
+							productReview.setReview(mReview.group().replaceAll("<span>|</span>", ""));
+						}
 						reviewList.add(productReview);
 						reviewFlag = false;
 						reviewCount = reviewCount + 1;

@@ -6,7 +6,7 @@ import java.net.URLEncoder;
 public class Util {
 	
 	/**
-	 * URLエンコードメソッド
+	 * URLエンコードを行うメソッド
 	 * @return 
 	 * @throws UnsupportedEncodingException 
 	 */
