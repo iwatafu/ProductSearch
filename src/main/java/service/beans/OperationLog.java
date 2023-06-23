@@ -1,4 +1,4 @@
-package Service.beans;
+package service.beans;
 
 public class OperationLog {
 	

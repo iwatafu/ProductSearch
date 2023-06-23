@@ -1,4 +1,4 @@
-package Service.query;
+package service.query;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import Service.beans.OperationLog;
+import service.beans.OperationLog;
 
 public class OperationLogDAO {
 

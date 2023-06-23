@@ -1,4 +1,4 @@
-package Service.beans;
+package service.beans;
 
 import java.util.ArrayList;
 

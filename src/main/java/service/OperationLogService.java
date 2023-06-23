@@ -1,10 +1,10 @@
-package Service;
+package service;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import Service.beans.OperationLog;
-import Service.query.OperationLogDAO;
+import service.beans.OperationLog;
+import service.query.OperationLogDAO;
 
 public class OperationLogService {
 	

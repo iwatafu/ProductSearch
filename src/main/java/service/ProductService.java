@@ -1,4 +1,4 @@
-package Service;
+package service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import Service.beans.Product;
-import Service.beans.ProductReview;
 import common.constants.Constants;
 import common.constants.HttpClientConstants;
 import common.utils.PropertiesUtil;
+import service.beans.Product;
+import service.beans.ProductReview;
 
 /**
  * 
